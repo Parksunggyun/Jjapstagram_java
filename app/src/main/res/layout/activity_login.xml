@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@android:color/white"
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/topBlankView"
+            app:layout_constraintHorizontal_weight="10"
+            android:id="@+id/leftBlankView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <View
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/topBlankView"
+            app:layout_constraintHorizontal_weight="10"
+            android:id="@+id/rightBlankView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <View
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/titleTxtView"
+            app:layout_constraintStart_toEndOf="@+id/leftBlankView"
+            app:layout_constraintEnd_toStartOf="@+id/rightBlankView"
+            app:layout_constraintVertical_weight="2"
+            app:layout_constraintHorizontal_weight="80"
+            android:id="@+id/topBlankView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTxtView"
+            app:layout_constraintTop_toBottomOf="@+id/topBlankView"
+            app:layout_constraintBottom_toTopOf="@+id/googleSignInBtn"
+            app:layout_constraintStart_toStartOf="@+id/topBlankView"
+            app:layout_constraintEnd_toEndOf="@+id/topBlankView"
+            app:layout_constraintVertical_weight="4"
+            android:fontFamily="@font/doodletoon_line"
+            android:text="@string/app_name_eng"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="48sp"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleSignInBtn"
+            app:layout_constraintStart_toStartOf="@+id/topBlankView"
+            app:layout_constraintEnd_toEndOf="@+id/topBlankView"
+            app:layout_constraintTop_toBottomOf="@+id/titleTxtView"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintVertical_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintStart_toStartOf="@+id/topBlankView"
+            app:layout_constraintEnd_toEndOf="@+id/topBlankView"
+            app:layout_constraintTop_toBottomOf="@+id/googleSignInBtn"
+            app:layout_constraintBottom_toTopOf="@+id/facebookSIgnInBtn"
+            app:layout_constraintVertical_weight="1"
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/fui_transparent">
+            <View
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/lgtGray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/sign_in_or"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:background="@android:color/white"
+                android:paddingStart="@dimen/padding_16"
+                android:paddingEnd="@dimen/padding_16"
+                android:fontFamily="@font/doodletoon_line"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.facebook.login.widget.LoginButton
+            app:layout_constraintStart_toStartOf="@+id/topBlankView"
+            app:layout_constraintEnd_toEndOf="@+id/topBlankView"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintBottom_toTopOf="@+id/bottomBlankView"
+            app:layout_constraintVertical_weight="1"
+            android:id="@+id/facebookSIgnInBtn"
+            android:layout_width="0dp"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/facebookSIgnInBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_weight="3"
+            android:id="@+id/bottomBlankView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <View
+                app:layout_constraintBottom_toTopOf="@+id/btmTxtView"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/lgtGray"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btmTxtView"
+                android:text="@string/sign_in_notification"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:textSize="12sp"
+                android:paddingTop="@dimen/padding_12"
+                android:paddingBottom="@dimen/padding_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

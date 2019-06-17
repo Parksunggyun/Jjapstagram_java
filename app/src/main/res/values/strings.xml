@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">짭스타그램</string>
+    <string name="app_name_eng">Jjapstagram</string>
+    <string name="facebook_app_id">305948606960443</string>
+    <string name="fb_login_protocol_scheme">fb305948606960443</string>
+
+
+    <string name="sign_in_google">Google 계정으로 로그인</string>
+    <string name="sign_in_facebook">facebook 계정으로 로그인</string>
+
+    <string name="sign_in_or">OR</string>
+
+    <string name="sign_in_notification">Google 계정과 facebook 계정으로만 이용가능합니다.</string>
+
+    <string name="sign_out">로그아웃</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">loading\.\.\.</string>
+
+</resources>

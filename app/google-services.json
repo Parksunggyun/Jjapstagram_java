@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "343149195734",
+    "firebase_url": "https://mjc-practice.firebaseio.com",
+    "project_id": "mjc-practice",
+    "storage_bucket": "mjc-practice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343149195734:android:bc0ada36bb2ae081",
+        "android_client_info": {
+          "package_name": "com.example.jjapstagram_java"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343149195734-qbq9icvvgg2ac4ghfqrngnplfj044odd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jjapstagram_java",
+            "certificate_hash": "f539c9e15c58871ada2c3275fa253696cd604354"
+          }
+        },
+        {
+          "client_id": "343149195734-n3if3tf6onsd5t07j7ehkd5ab60kdfci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZTa5aGruv5HL7k8Lr_6Kvgpfzhj6DJdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343149195734-n3if3tf6onsd5t07j7ehkd5ab60kdfci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
