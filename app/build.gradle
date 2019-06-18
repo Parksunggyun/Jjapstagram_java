@@ -60,17 +60,14 @@ dependencies {
 
 
     //firebase
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-auth:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-auth:18.0.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //facebook login
     implementation 'com.facebook.android:facebook-login:5.0.1'
 
 
-
-    //firebase UI
-    implementation 'com.firebaseui:firebase-ui-auth:5.0.0'
 
 
 }

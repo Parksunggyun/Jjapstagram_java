@@ -69,7 +69,7 @@
             android:id="@+id/view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/fui_transparent">
+            android:background="@android:color/transparent">
             <View
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -98,6 +98,8 @@
             app:layout_constraintBottom_toTopOf="@+id/bottomBlankView"
             app:layout_constraintVertical_weight="1"
             android:id="@+id/facebookSIgnInBtn"
+            facebook:com_facebook_login_text="@string/sign_in_facebook"
+            facebook:com_facebook_logout_text="@string/sign_out_facebook"
             android:layout_width="0dp"
             android:textSize="25sp"
             android:gravity="center"

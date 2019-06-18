@@ -5,8 +5,16 @@
     <string name="fb_login_protocol_scheme">fb305948606960443</string>
 
 
+
     <string name="sign_in_google">Google 계정으로 로그인</string>
     <string name="sign_in_facebook">facebook 계정으로 로그인</string>
+    <string name="sign_out_facebook">facebook 로그아웃</string>
+
+    <string name="facebook_login_key">email</string>
+    <string name="facebook_login_value">public_profile</string>
+
+    <string name="login_name">login</string>
+    <string name="login_provider">provider</string>
 
     <string name="sign_in_or">OR</string>
 
