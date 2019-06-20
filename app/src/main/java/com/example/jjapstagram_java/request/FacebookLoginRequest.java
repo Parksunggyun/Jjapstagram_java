@@ -50,14 +50,13 @@ public class FacebookLoginRequest implements FacebookCallback<LoginResult> {
 
                     if(task.isSuccessful()) {
                         assert task.getResult() != null;
-                        String provider = task.getResult().getCredential().getProvider();
                         Log.d(TAG, "facebook - signInWithCredential:success");
                         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                        activity.checkUser(mFirebaseUser, provider);
+                        activity.checkUser(mFirebaseUser);
                     } else {
                         Log.w(TAG, "facebook - signInWithCredential:failure", task.getException());
                         Toast.makeText(activity, "facebook - Authentication Failed.", Toast.LENGTH_SHORT).show();
-                        activity.checkUser(null, null);
+                        activity.checkUser(null);
                     }
 
                     activity.hideProgressDialog();

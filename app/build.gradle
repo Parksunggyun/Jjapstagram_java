@@ -67,8 +67,5 @@ dependencies {
     //facebook login
     implementation 'com.facebook.android:facebook-login:5.0.1'
 
-
-
-
 }
 apply plugin: 'com.google.gms.google-services'

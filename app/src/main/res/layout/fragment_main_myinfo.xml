@@ -1,6 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".myinfo.MyInfoMainFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/myInfoToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_48"
+            android:background="@android:color/white"
+            android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userNameTxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_16"
+                android:textStyle="bold"
+                tools:text="sung.gyun.park" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myInfoToolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/myInfoTopLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/myInfoBottomLayout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="3">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/myInfoProfileImgView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/layout_margin_16"
+                        android:layout_marginBottom="@dimen/layout_margin_16"
+                        app:layout_constraintBottom_toTopOf="@+id/myInfoTxtView"
+                        app:layout_constraintEnd_toStartOf="@+id/myInfoPostCntTxtView"
+                        app:layout_constraintHorizontal_weight="2.7"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_weight="7" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/myInfoTxtView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:gravity="center|start"
+                        android:paddingStart="@dimen/padding_16"
+                        android:paddingEnd="0dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_myInfo_14"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/myInfoProfileImgView"
+                        app:layout_constraintVertical_weight="3"
+                        tools:text="박성균\ncawa" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/myInfoPostCntTxtView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/myInfoFollowingCntTxtView"
+                        app:layout_constraintEnd_toStartOf="@+id/myInfoFollowerCntTxtView"
+                        app:layout_constraintHorizontal_weight="2"
+                        app:layout_constraintStart_toEndOf="@+id/myInfoProfileImgView"
+                        app:layout_constraintTop_toTopOf="@+id/myInfoProfileImgView"
+                        tools:text="5\n게시물" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/myInfoFollowerCntTxtView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/myInfoFollowingCntTxtView"
+                        app:layout_constraintEnd_toStartOf="@+id/myInfoFollowingCntTxtView"
+                        app:layout_constraintHorizontal_weight="2"
+                        app:layout_constraintStart_toEndOf="@+id/myInfoPostCntTxtView"
+                        app:layout_constraintTop_toTopOf="@+id/myInfoProfileImgView"
+                        tools:text="63\n팔로잉" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/myInfoFollowingCntTxtView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toTopOf="@+id/myInfoUpdateProfileBtn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="2"
+                        app:layout_constraintStart_toEndOf="@+id/myInfoFollowerCntTxtView"
+                        app:layout_constraintTop_toTopOf="@+id/myInfoProfileImgView"
+                        app:layout_constraintVertical_weight="2.5"
+                        tools:text="68\n팔로잉" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/myInfoUpdateProfileBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/padding_8"
+                        android:background="@drawable/border_gray"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/myInfoProfileImgView"
+                        app:layout_constraintEnd_toEndOf="@+id/myInfoFollowingCntTxtView"
+                        app:layout_constraintStart_toStartOf="@+id/myInfoPostCntTxtView"
+                        app:layout_constraintTop_toBottomOf="@+id/myInfoFollowingCntTxtView"
+                        app:layout_constraintVertical_weight="1.5"
+                        tools:text="프로필 수정" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/myInfoBottomLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/myInfoTopLayout"
+                    app:layout_constraintVertical_weight="7">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

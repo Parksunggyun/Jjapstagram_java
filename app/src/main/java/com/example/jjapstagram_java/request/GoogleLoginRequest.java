@@ -33,16 +33,14 @@ public class GoogleLoginRequest {
                 .addOnCompleteListener(activity, task -> {
                     if (task.isSuccessful()) {
                         assert task.getResult() != null;
-                        String provider = task.getResult().getCredential().getProvider();
                         Log.d(TAG, "google - signInWithCredential:success");
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         assert firebaseUser != null;
-                        Log.d(TAG, provider);
-                        activity.checkUser(firebaseUser, provider);
+                        activity.checkUser(firebaseUser);
                     } else {
                         Log.w(TAG, "google - signInWithCredential:failure", task.getException());
                         Toast.makeText(activity, "facebook - Authentication Failed.", Toast.LENGTH_SHORT).show();
-                        activity.checkUser(null, null);
+                        activity.checkUser(null);
                     }
 
                     activity.hideProgressDialog();

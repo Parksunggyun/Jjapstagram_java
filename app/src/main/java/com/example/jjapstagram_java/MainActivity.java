@@ -4,38 +4,65 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
 
 import com.example.jjapstagram_java.databinding.ActivityMainBinding;
 import com.example.jjapstagram_java.home.HomeMainFragment;
 import com.example.jjapstagram_java.login.LoginActivity;
-import com.facebook.CallbackManager;
+import com.example.jjapstagram_java.myinfo.MyInfoMainFragment;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 public class MainActivity extends BaseActivity {
 
     ActivityMainBinding binding;
     FragmentTransaction mFragmentTransaction;
+    BaseFragment mCurrFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        setHomeFragment();
+        mCurrFragment = new HomeMainFragment();
+        setHomeFragment(mCurrFragment);
+        binding.myInfoImgView.setOnClickListener(this::setFragment);
     }
 
-    private void setHomeFragment() {
-        if (mFragmentTransaction != null) {
-            mFragmentTransaction = null;
-        }
+    private void setHomeFragment(BaseFragment newFragment) {
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragmentTransaction.add(R.id.container, new HomeMainFragment()).commit();
+        new Handler().postDelayed(() -> {
+            if (mFragmentTransaction.isEmpty()) {
+                mFragmentTransaction.replace(R.id.container, mCurrFragment).commit();
+            } else {
+                mFragmentTransaction.detach(mCurrFragment);
+                mCurrFragment = newFragment;
+                mFragmentTransaction.attach(mCurrFragment).commit();
+            }
+        }, 200);
+    }
+
+    private void setFragment(View view) {
+        switch (view.getId()) {
+            case R.id.homeImgView:
+                break;
+            case R.id.searchImgView:
+                break;
+            case R.id.postView:
+                break;
+            case R.id.likeImgVIew:
+                break;
+            case R.id.myInfoImgView:
+                Log.e("myInfo", "ImgView clicked");
+                binding.myInfoImgView.setImageResource(R.drawable.ic_my_info);
+                setHomeFragment(new MyInfoMainFragment());
+                break;
+        }
     }
 
     @Override
@@ -44,21 +71,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void signOut() {
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.login_name), MODE_PRIVATE);
-        String provider = sharedPreferences.getString(getString(R.string.login_provider), null);
-        assert provider != null;
-        if(provider.contains("facebook")) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        UserInfo userInfo = user.getProviderData().get(1);
+        if (userInfo.getProviderId().contains("facebook")){
             LoginManager.getInstance().logOut();
         }
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, LoginActivity.class));
         finish();
-/*
-        mCallbackManager = CallbackManager.Factory.create();
-        mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });*/
     }
 }
 

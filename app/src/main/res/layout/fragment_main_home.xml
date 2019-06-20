@@ -10,7 +10,7 @@
             android:id="@+id/toolbar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="@dimen/height_48"
             android:background="@android:color/white"
             android:elevation="4dp"
             app:contentInsetStart="0dp">
@@ -38,7 +38,10 @@
             android:id="@+id/homeContentsLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp">
-
+<!--            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/postViews"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
