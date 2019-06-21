@@ -11,11 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.jjapstagram_java.BaseActivity;
+import com.example.jjapstagram_java.Jjapplication;
 import com.example.jjapstagram_java.MainActivity;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.ActivityLoginBinding;
 import com.example.jjapstagram_java.request.FacebookLoginRequest;
 import com.example.jjapstagram_java.request.GoogleLoginRequest;
+import com.example.jjapstagram_java.util.Logcat;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -39,7 +41,6 @@ public class LoginActivity extends BaseActivity {
     GoogleSignInOptions mGoogleSignInOptions;
     GoogleSignInClient mGoogleSignInClient;
 
-    private FirebaseAuth mFirebaseAuth;
 
     CallbackManager mCallbackManager;
 
@@ -52,7 +53,7 @@ public class LoginActivity extends BaseActivity {
 
         callGoogleLogin();
         mGoogleSignInClient = GoogleSignIn.getClient(this, mGoogleSignInOptions);
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        Jjapplication.mAuth = FirebaseAuth.getInstance();
         mCallbackManager = CallbackManager.Factory.create();
 
         TextView textView = (TextView) binding.googleSignInBtn.getChildAt(0);
@@ -67,8 +68,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-        checkUser(firebaseUser);
+        checkUser(Jjapplication.mUser);
     }
 
     private void callGoogleLogin() {
@@ -115,13 +115,12 @@ public class LoginActivity extends BaseActivity {
     public void checkUser(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            for(UserInfo userInfo : user.getProviderData()) {
-                Log.e(TAG, "provider = " + userInfo.getProviderId());
-                Log.e(TAG, "displayName = " + userInfo.getDisplayName());
-                Log.e(TAG, "email = " + userInfo.getEmail());
-                Log.e(TAG, "photoUri = " + userInfo.getPhotoUrl());
+            for (int i = 0; i < user.getProviderData().size(); i++) {
+                if(i != 0) {
+                    UserInfo userInfo = user.getProviderData().get(i);
+                    Logcat.e(LoginActivity.class, userInfo.getProviderId(), userInfo.getDisplayName(), userInfo.getEmail(), String.valueOf(userInfo.getPhotoUrl()));
+                }
             }
-
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

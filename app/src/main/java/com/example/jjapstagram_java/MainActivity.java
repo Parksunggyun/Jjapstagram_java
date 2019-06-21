@@ -20,6 +20,8 @@ import com.google.firebase.auth.UserInfo;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     ActivityMainBinding binding;
     FragmentTransaction mFragmentTransaction;
     BaseFragment mCurrFragment;
@@ -36,20 +38,14 @@ public class MainActivity extends BaseActivity {
 
     private void setHomeFragment(BaseFragment newFragment) {
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        new Handler().postDelayed(() -> {
-            if (mFragmentTransaction.isEmpty()) {
-                mFragmentTransaction.replace(R.id.container, mCurrFragment).commit();
-            } else {
-                mFragmentTransaction.detach(mCurrFragment);
-                mCurrFragment = newFragment;
-                mFragmentTransaction.attach(mCurrFragment).commit();
-            }
-        }, 200);
+        mFragmentTransaction.replace(R.id.container, newFragment).commit();
     }
 
     private void setFragment(View view) {
         switch (view.getId()) {
             case R.id.homeImgView:
+                binding.myInfoImgView.setImageResource(R.drawable.ic_my_info_blank);
+                setHomeFragment(new HomeMainFragment());
                 break;
             case R.id.searchImgView:
                 break;
@@ -67,7 +63,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        signOut();
+        //signOut();
     }
 
     private void signOut() {
