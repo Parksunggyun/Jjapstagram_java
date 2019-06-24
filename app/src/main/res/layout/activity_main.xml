@@ -43,8 +43,11 @@
             android:scaleType="centerInside"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
-        <View
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/postView"
+            android:src="@drawable/ic_add_desel"
+            android:scaleType="centerInside"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/searchImgView"
             app:layout_constraintEnd_toStartOf="@+id/likeImgVIew"
             android:layout_width="0dp"
@@ -68,6 +71,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabPostView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:fabSize="normal"

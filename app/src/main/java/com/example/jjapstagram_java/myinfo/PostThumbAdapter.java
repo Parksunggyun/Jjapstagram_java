@@ -1,6 +1,7 @@
 package com.example.jjapstagram_java.myinfo;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -31,8 +32,8 @@ public class PostThumbAdapter extends RecyclerView.Adapter<PostThumbAdapter.Post
     @Override
     public void onBindViewHolder(@NonNull PostThumbViewHolder holder, int position) {
         ItemPostThumbBinding binding = holder.binding;
-
-
+        Log.e("position", String.valueOf(position));
+        binding.postThumbTxtView.setText(("curr pos = " + position));
     }
 
     @Override

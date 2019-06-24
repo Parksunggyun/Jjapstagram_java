@@ -3,11 +3,14 @@ package com.example.jjapstagram_java;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 
 import com.example.jjapstagram_java.databinding.ActivityMainBinding;
 import com.example.jjapstagram_java.home.HomeMainFragment;
@@ -33,6 +36,10 @@ public class MainActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mCurrFragment = new HomeMainFragment();
         setHomeFragment(mCurrFragment);
+        binding.homeImgView.setOnClickListener(this::setFragment);
+        binding.searchImgView.setOnClickListener(this::setFragment);
+        binding.postView.setOnClickListener(this::setFragment);
+        binding.likeImgVIew.setOnClickListener(this::setFragment);
         binding.myInfoImgView.setOnClickListener(this::setFragment);
     }
 
@@ -44,21 +51,48 @@ public class MainActivity extends BaseActivity {
     private void setFragment(View view) {
         switch (view.getId()) {
             case R.id.homeImgView:
+                hideFab();
                 binding.myInfoImgView.setImageResource(R.drawable.ic_my_info_blank);
                 setHomeFragment(new HomeMainFragment());
                 break;
             case R.id.searchImgView:
+                hideFab();
                 break;
             case R.id.postView:
+                showFab();
                 break;
             case R.id.likeImgVIew:
+                hideFab();
                 break;
             case R.id.myInfoImgView:
                 Log.e("myInfo", "ImgView clicked");
+                hideFab();
                 binding.myInfoImgView.setImageResource(R.drawable.ic_my_info);
                 setHomeFragment(new MyInfoMainFragment());
                 break;
         }
+    }
+
+    private void hideFab() {
+        float tY = (float)(binding.fabPostView.getHeight() / 3);
+        binding.fabPostView.animate().setDuration(500).translationY(0.0f).translationYBy(tY).scaleX(1.0f).scaleXBy(0.0f).scaleY(1.0f).scaleYBy(0.0f).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                binding.fabPostView.hide();
+                binding.postView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void showFab() {
+        float tY = (float)(binding.fabPostView.getHeight() / 3);
+        binding.fabPostView.animate().setDuration(500).translationYBy(0.0f).translationY(tY).scaleX(0.0f).scaleXBy(1.0f).scaleY(0.0f).scaleYBy(1.0f).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                binding.fabPostView.show();
+                binding.postView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override

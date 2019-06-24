@@ -54,8 +54,8 @@ public class MyInfoMainFragment extends BaseFragment {
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         PostThumbAdapter postThumbAdapter = new PostThumbAdapter(getContext());
-        binding.postedViews.setLayoutManager(manager);
-        binding.postedViews.setAdapter(postThumbAdapter);
+        binding.myInfoBottomLayout.setLayoutManager(manager);
+        binding.myInfoBottomLayout.setAdapter(postThumbAdapter);
         postThumbAdapter.update(postThumbs);
         binding.setListener(this);
         return binding.getRoot();
@@ -80,8 +80,12 @@ public class MyInfoMainFragment extends BaseFragment {
     }
 
     private void setLayoutHeight() {
-        binding.myInfoTopLayout.getLayoutParams().height = (((getResources().getDisplayMetrics().heightPixels - binding.myInfoToolbar.getHeight()) / 10) * 3);
-        binding.myInfoTopInsideLayout.getLayoutParams().height = binding.myInfoTopLayout.getHeight() - binding.postedLayout.getHeight();
+        int dpHeight = getResources().getDisplayMetrics().heightPixels;
+        int tbHeight = binding.myInfoToolbar.getHeight();
+        int myInfoTopHeight = (int)(((dpHeight - tbHeight) / 10) * 3.5);
+        binding.myInfoTopLayout.getLayoutParams().height = myInfoTopHeight;
+        binding.myInfoBottomLayout.getLayoutParams().height = dpHeight - myInfoTopHeight;
+
     }
 
     private void setImgs(int... imgs) {
