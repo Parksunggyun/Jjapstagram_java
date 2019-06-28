@@ -7,12 +7,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 
 import com.example.jjapstagram_java.databinding.ActivityMainBinding;
+import com.example.jjapstagram_java.favorite.FavoriteMainFragment;
 import com.example.jjapstagram_java.home.HomeMainFragment;
 import com.example.jjapstagram_java.login.LoginActivity;
 import com.example.jjapstagram_java.myinfo.MyInfoMainFragment;
@@ -51,26 +50,33 @@ public class MainActivity extends BaseActivity {
     private void setFragment(View view) {
         switch (view.getId()) {
             case R.id.homeImgView:
-                hideFab();
-                binding.myInfoImgView.setImageResource(R.drawable.ic_my_info_blank);
+                setIcons(R.drawable.ic_home, R.drawable.ic_search, R.drawable.ic_favorite, R.drawable.ic_my_info_blank);
                 setHomeFragment(new HomeMainFragment());
                 break;
             case R.id.searchImgView:
-                hideFab();
+                setIcons(R.drawable.ic_home, R.drawable.ic_search, R.drawable.ic_favorite, R.drawable.ic_my_info_blank);
                 break;
             case R.id.postView:
                 showFab();
                 break;
             case R.id.likeImgVIew:
-                hideFab();
+                setIcons(R.drawable.ic_home, R.drawable.ic_search, R.drawable.ic_favorite_fill, R.drawable.ic_my_info_blank);
+                setHomeFragment(new FavoriteMainFragment());
                 break;
             case R.id.myInfoImgView:
                 Log.e("myInfo", "ImgView clicked");
-                hideFab();
-                binding.myInfoImgView.setImageResource(R.drawable.ic_my_info);
+                setIcons(R.drawable.ic_home, R.drawable.ic_search, R.drawable.ic_favorite, R.drawable.ic_my_info);
                 setHomeFragment(new MyInfoMainFragment());
                 break;
         }
+    }
+
+    private void setIcons(int... icons) {
+        binding.homeImgView.setImageResource(icons[0]);
+        binding.searchImgView.setImageResource(icons[1]);
+        binding.likeImgVIew.setImageResource(icons[2]);
+        binding.myInfoImgView.setImageResource(icons[3]);
+        hideFab();
     }
 
     private void hideFab() {
@@ -86,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
     private void showFab() {
         float tY = (float)(binding.fabPostView.getHeight() / 3);
-        binding.fabPostView.animate().setDuration(500).translationYBy(0.0f).translationY(tY).scaleX(0.0f).scaleXBy(1.0f).scaleY(0.0f).scaleYBy(1.0f).setListener(new AnimatorListenerAdapter() {
+        binding.fabPostView.animate().setDuration(500).translationY(0.0f).translationYBy(-tY).scaleX(0.0f).scaleXBy(1.0f).scaleY(0.0f).scaleYBy(1.0f).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 binding.fabPostView.show();
@@ -94,11 +100,11 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
+/*
     @Override
     public void onBackPressed() {
         //signOut();
-    }
+    }*/
 
     private void signOut() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

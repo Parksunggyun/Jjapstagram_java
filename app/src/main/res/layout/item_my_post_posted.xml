@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/whosImgView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/myPostedInfoTxtView"
+            android:layout_width="72dp"
+            android:scaleType="fitXY"
+            android:padding="@dimen/padding_12"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            app:layout_constraintStart_toEndOf="@+id/whosImgView"
+            app:layout_constraintEnd_toStartOf="@+id/myPostedThumbImgView"
+            android:id="@+id/myPostedInfoTxtView"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/myPostedThumbImgView"
+            app:layout_constraintStart_toEndOf="@+id/myPostedInfoTxtView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:padding="@dimen/padding_12"
+            android:layout_width="72dp"
+            android:layout_height="match_parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

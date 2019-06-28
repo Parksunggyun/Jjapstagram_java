@@ -10,6 +10,7 @@
     <dimen name="layout_margin_16">16dp</dimen>
 
     <dimen name="height_48">48dp</dimen>
+    <dimen name="height_42">42dp</dimen>
 
     <dimen name="text_16">16sp</dimen>
     <dimen name="text_myInfo_14">14sp</dimen>

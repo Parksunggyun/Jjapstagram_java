@@ -2,6 +2,10 @@ package com.example.jjapstagram_java.myinfo;
 
 
 import android.graphics.Point;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -16,11 +20,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.jjapstagram_java.BaseFragment;
 import com.example.jjapstagram_java.Jjapplication;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.FragmentMainMyinfoBinding;
-import com.example.jjapstagram_java.util.Logcat;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Vector;
@@ -39,6 +44,8 @@ public class MyInfoMainFragment extends BaseFragment {
         Log.e(TAG, "onCreateView");
         mUser = Jjapplication.mUser;
         assert mUser != null;
+        Uri profile = mUser.getPhotoUrl();
+        Glide.with(this).load(profile).apply(new RequestOptions().circleCrop()).into(binding.myInfoProfileImgView);
         binding.userNameTxtView.setText(mUser.getDisplayName());
         binding.myInfoPostCntTxtView.setText(("5\n" + getString(R.string.myInfo_post)));
         binding.myInfoFollowerCntTxtView.setText(("63\n" + getString(R.string.myInfo_follower)));
