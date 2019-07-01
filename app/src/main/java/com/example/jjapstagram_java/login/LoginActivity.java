@@ -68,7 +68,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        checkUser(Jjapplication.mUser);
+        checkUser(Jjapplication.getUserInfo());
     }
 
     private void callGoogleLogin() {

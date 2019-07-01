@@ -10,10 +10,11 @@ public class Jjapplication extends Application {
     public static FirebaseAuth mAuth;
     public static FirebaseUser mUser;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    public static FirebaseUser getUserInfo() {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        return mUser;
     }
+
+
 }

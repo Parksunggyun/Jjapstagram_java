@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/postToolbar"
+            app:contentInsetStart="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_48">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/postStopImgView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_close"
+                android:adjustViewBounds="true"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/gallerySpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/postNextTxtView"
+                android:text="@string/txt_next"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:paddingEnd="@dimen/padding_8"
+                android:textColor="@color/com_facebook_blue"
+                android:paddingStart="@dimen/padding_8"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@android:color/holo_blue_dark"
+            android:id="@+id/bigSizeLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postToolbar"
+            app:layout_constraintBottom_toTopOf="@+id/imgViews"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1">
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imgViews"
+            app:layout_constraintTop_toBottomOf="@+id/bigSizeLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

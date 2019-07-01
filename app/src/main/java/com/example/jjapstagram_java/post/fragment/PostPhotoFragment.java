@@ -1,4 +1,4 @@
-package com.example.jjapstagram_java;
+package com.example.jjapstagram_java.post.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-public class BaseFragment extends Fragment {
+import com.example.jjapstagram_java.BaseFragment;
+
+public class PostPhotoFragment extends BaseFragment {
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        assert getActivity() != null;
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
 }

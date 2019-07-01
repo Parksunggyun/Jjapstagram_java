@@ -9,7 +9,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-import com.example.jjapstagram_java.R;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 public class BaseActivity extends RxAppCompatActivity {

@@ -1,18 +1,12 @@
 package com.example.jjapstagram_java.myinfo;
 
 
-import android.graphics.Point;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +36,7 @@ public class MyInfoMainFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_myinfo, container, false);
         Log.e(TAG, "onCreateView");
-        mUser = Jjapplication.mUser;
+        mUser = Jjapplication.getUserInfo();
         assert mUser != null;
         Uri profile = mUser.getPhotoUrl();
         Glide.with(this).load(profile).apply(new RequestOptions().circleCrop()).into(binding.myInfoProfileImgView);
@@ -94,6 +88,8 @@ public class MyInfoMainFragment extends BaseFragment {
         binding.myInfoBottomLayout.getLayoutParams().height = dpHeight - myInfoTopHeight;
 
     }
+
+
 
     private void setImgs(int... imgs) {
         binding.postThumbListImgView.setImageResource(imgs[0]);

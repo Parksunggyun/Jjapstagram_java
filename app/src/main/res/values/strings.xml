@@ -34,4 +34,8 @@
     <string name="myInfo_following">팔로잉</string>
     <!--              -->
 
+
+    <!--postMainActivity-->
+    <string name="txt_next">다음</string>
+
 </resources>
