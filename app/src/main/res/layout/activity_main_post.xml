@@ -2,6 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="post"
+            type="com.example.jjapstagram_java.post.Post" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,9 +31,22 @@
                 android:adjustViewBounds="true"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="@{post.position == 0 ? View.VISIBLE : View.GONE}"
                 android:id="@+id/gallerySpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="@{post.position != 0 ? View.VISIBLE : View.GONE}"
+                android:id="@+id/postTypeTxtView"
+                android:text="@{post.position == 1 ? post.photo : post.video}"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:paddingEnd="@dimen/padding_8"
+                android:textColor="@android:color/background_dark"
+                android:paddingStart="@dimen/padding_8"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/postNextTxtView"
@@ -36,23 +59,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </androidx.appcompat.widget.Toolbar>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@android:color/holo_blue_dark"
-            android:id="@+id/bigSizeLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postToolbar"
-            app:layout_constraintBottom_toTopOf="@+id/imgViews"
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/postViewPager"
+            app:layout_constraintTop_toBottomOf="@id/postToolbar"
+            app:layout_constraintBottom_toTopOf="@+id/postTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1">
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imgViews"
-            app:layout_constraintTop_toBottomOf="@+id/bigSizeLayout"
+            android:layout_height="0dp">
+
+        </androidx.viewpager.widget.ViewPager>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/postTabLayout"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:tabTextAppearance="@style/tab_text"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#80000000"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabTextColor="#808080"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="@dimen/height_42"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

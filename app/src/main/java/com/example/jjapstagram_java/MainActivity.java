@@ -28,7 +28,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -52,8 +51,10 @@ public class MainActivity extends BaseActivity {
 
         mCurrFragment = new HomeMainFragment();
         setHomeFragment(mCurrFragment);
+
         mOriginY = binding.fabPostView.getY();
         mTY = (float) (binding.fabPostView.getHeight() / 3);
+
         binding.homeImgView.setOnClickListener(this::setFragment);
         binding.searchImgView.setOnClickListener(this::setFragment);
         binding.postView.setOnClickListener(this::setFragment);
@@ -157,40 +158,44 @@ public class MainActivity extends BaseActivity {
 
 
 
-    public static final int MULTIPLE_PERMISSIONS = 10; // code you want.
+    public static final int PERMISSIONS = 10; // code you want.
     // 원하는 권한을 배열로 넣어줍니다.
-    String[] permissions = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+    String[] GROUPS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    private boolean checkPermissions() {
+    private void checkPermissions() {
         int result;
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        for (String p : permissions) {
+        ArrayList<String> permissionNeeded = new ArrayList<>();
+        for (String p : GROUPS) {
             result = ContextCompat.checkSelfPermission(this, p);
             if (result != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(p);
+                permissionNeeded.add(p);
             }
         }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this,
-                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
-                    MULTIPLE_PERMISSIONS);
-            return false;
+        if (!permissionNeeded.isEmpty()) {
+            String[] ps = new String[permissionNeeded.size()];
+            for (int i = 0; i < ps.length; i++) {
+                ps[i] = permissionNeeded.get(i);
+            }
+            ActivityCompat.requestPermissions(this, ps, PERMISSIONS);
+
         }
-        return true;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("Permission", "granted");
+                } else {
+                    finish();
+                }
+        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MULTIPLE_PERMISSIONS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("permission", "granted");
-                }
-            }
-        }
-    }
 }
 

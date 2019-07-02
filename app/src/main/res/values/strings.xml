@@ -37,5 +37,10 @@
 
     <!--postMainActivity-->
     <string name="txt_next">다음</string>
+    <string name="txt_gallery">갤러리</string>
+    <string name="txt_photo">사진</string>
+    <string name="txt_video">동영상</string>
+
+
 
 </resources>

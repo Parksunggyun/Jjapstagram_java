@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/galleryCardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/galleryImgView"
+            android:src="@drawable/ic_camera_capture"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
+
+<!--
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_gravity="end|top"
+            android:layout_width="36dp"
+            android:layout_height="36dp">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+-->
+
+    </androidx.cardview.widget.CardView>
+</layout>

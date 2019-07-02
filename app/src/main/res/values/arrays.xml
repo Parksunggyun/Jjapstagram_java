@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="brand_name">
+        <item>Samsung</item>
+        <item>Apple</item>
+        <item>LG</item>
+        <item>Sony</item>
+        <item>Nokia</item>
+    </string-array>
+
+</resources>
