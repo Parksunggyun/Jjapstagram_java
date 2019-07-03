@@ -7,15 +7,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jjapstagram_java.databinding.ItemGalleryImageBinding;
 import com.example.jjapstagram_java.post.Thumbnails;
 
+import java.io.File;
 import java.util.Vector;
 
 public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapter.GalleryImageViewHolder> {
 
     private Vector<Thumbnails> thumbnails = new Vector<>();
     private Context context;
+    private int height = 0;
 
     GalleryImageAdapter(Context context) {
         this.context = context;
@@ -32,9 +35,13 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
     public void onBindViewHolder(@NonNull GalleryImageViewHolder holder, int position) {
         ItemGalleryImageBinding binding = holder.binding;
 
-        Thumbnails thumbnail = thumbnails.get(position);
-        binding.galleryImgView.setImageBitmap(thumbnail.getImage());
+        if(height != 0) {
+            binding.galleryCardView.getLayoutParams().height = height;
+        }
 
+        Thumbnails thumbnail = thumbnails.get(position);
+        //binding.galleryImgView.setImageBitmap(thumbnail.getImage());
+        Glide.with(context).load(new File(thumbnail.getUri().getPath())).override(height).into(binding.galleryImgView);
     }
 
     @Override
@@ -42,9 +49,16 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
         return thumbnails.size();
     }
 
-    public void update(int pos, Thumbnails thumbnail) {
-        this.thumbnails.add(pos, thumbnail);
-        notifyItemChanged(pos);
+    public void update(int height, Thumbnails thumbnail) {
+        this.height = height;
+        this.thumbnails.add(thumbnails.size(), thumbnail);
+        notifyItemChanged(thumbnails.size());
+    }
+
+    public void init() {
+        thumbnails.removeAllElements();
+        thumbnails = new Vector<>();
+        notifyDataSetChanged();
     }
 
     class GalleryImageViewHolder extends RecyclerView.ViewHolder {

@@ -1,19 +1,16 @@
 package com.example.jjapstagram_java.post;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 
 public class Thumbnails {
 
     private String title;
-    private Bitmap image;
     private Uri uri;
     private int selectPosition;
     private boolean select;
 
-    public Thumbnails(String title, Bitmap image, Uri uri) {
+    public Thumbnails(String title, Uri uri) {
         this.title = title;
-        this.image = image;
         this.uri = uri;
         select = false;
         selectPosition = -1;
@@ -29,10 +26,6 @@ public class Thumbnails {
 
     public String getTitle() {
         return title;
-    }
-
-    public Bitmap getImage() {
-        return image;
     }
 
     public Uri getUri() {
