@@ -18,6 +18,36 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"/>
 
+        <View
+            android:visibility="gone"
+            android:background="#CCFFFFFF"
+            android:id="@+id/translucentView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/galleryImgView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/multiSelectLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="@dimen/padding_8"
+            android:layout_marginTop="@dimen/padding_8"
+            android:background="@drawable/border_image_desel"
+            android:layout_width="24dp"
+            android:layout_height="24dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/selectedCntTxtView"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 <!--
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_gravity="end|top"

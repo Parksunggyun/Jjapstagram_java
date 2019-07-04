@@ -12,6 +12,8 @@
     <dimen name="height_96">96dp</dimen>
     <dimen name="height_48">48dp</dimen>
     <dimen name="height_42">42dp</dimen>
+    <dimen name="height_36">36dp</dimen>
+    <dimen name="height_24">24dp</dimen>
 
     <dimen name="text_16">16sp</dimen>
     <dimen name="text_myInfo_14">14sp</dimen>

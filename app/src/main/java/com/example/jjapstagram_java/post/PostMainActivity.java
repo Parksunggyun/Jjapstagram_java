@@ -1,8 +1,6 @@
 package com.example.jjapstagram_java.post;
 
 import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.jjapstagram_java.BaseActivity;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.ActivityMainPostBinding;
-import com.example.jjapstagram_java.post.fragment.PostFragmentAdapter;
+import com.example.jjapstagram_java.post.adapter.PostFragmentAdapter;
 import com.example.jjapstagram_java.post.fragment.PostGalleryFragment;
 import com.example.jjapstagram_java.post.fragment.PostPhotoFragment;
 import com.example.jjapstagram_java.util.Logcat;
@@ -29,22 +27,27 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class PostMainActivity extends BaseActivity {
 
     private ActivityMainPostBinding binding;
     private PostFragmentAdapter mPostFragmentAdapter;
-    private String BASIC_PATH, DETAIL_PATH, LAST_PATH;
+    private String BASIC_PATH;
     File mFile;
 
     public int position = 0;
     Post mPost;
-    List<String> mFolderList;
-    Set<String> mFolderSet;
+    List<String> mFolderList, mFolderPathList;
+    SortedSet<String> mFolderSet;
+    HashMap<String, String> mFolderMap;
 
     Fragment mCurrentFragment;
     int quarterWidth;
@@ -65,12 +68,14 @@ public class PostMainActivity extends BaseActivity {
             Log.e("onItemSelected", "called");
 
             String folderName = (String) binding.gallerySpinner.getSelectedItem();
-            DETAIL_PATH = folderName;
+            String DETAIL_PATH = mFolderPathList.get(position);
+            String LAST_PATH;
             if (!folderName.equals("갤러리")) {
-                LAST_PATH = BASIC_PATH + DETAIL_PATH + "/";
+                LAST_PATH = BASIC_PATH + DETAIL_PATH;
             } else {
                 LAST_PATH = BASIC_PATH;
             }
+            Log.e("LAST_PATH", LAST_PATH);
 
             mCurrentFragment = mPostFragmentAdapter.getItem(PostMainActivity.this.position);
             //PostGalleryFragment.updateFolderPath(PostMainActivity.this, LAST_PATH);
@@ -106,51 +111,78 @@ public class PostMainActivity extends BaseActivity {
         binding.gallerySpinner.setOnItemSelectedListener(onItemSelectedListener);
     }
 
-    private ArrayList<String> getBucketNames() {
-        ArrayList<String> folderLists = new ArrayList<>();
-        mFolderSet = new HashSet<>();
-/*        String[] projection = new String[] {
-                "Distinct " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.Media.DATE_TAKEN
-        };*/
-
-        String[] projection = new String[] {"DISTINCT " + MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME};
-        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                projection,
-                null,
-                null,
-                null);
-
-        if (cursor.moveToFirst()) {
-            String bucket;
-            int bucketColumn = cursor.getColumnIndex(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME);
-
-            do {
-                bucket = cursor.getString(bucketColumn);
-                Log.e("folderName", bucket);
-                mFolderSet.add(bucket);
-            } while (cursor.moveToNext());
-        }
-        for (String folderName : mFolderSet) {
-            folderLists.add(folderName);
-            //Logcat.e(PostMainActivity.class, folderName);
-        }
-        return folderLists;
-    }
-
     private void getFolderLists() {
+        mFolderMap = new HashMap<>();
         mFolderList = new ArrayList<>();
-        //mFolderList = getBucketNames();
-/*        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        String[] folders = file.list();
-        for (String folder : folders) {
-            Collections.addAll(mFolderList, folder);
-        }*/
-        mFolderList.add(0, "갤러리");
-        binding.gallerySpinner.setAdapter(new ArrayAdapter<>(this, R.layout.item_folder, mFolderList));
+        mFolderPathList = new ArrayList<>();
+        mFolderSet = initFolderLists();
         mFile = Environment.getExternalStorageDirectory().getAbsoluteFile();
         BASIC_PATH = mFile.getPath() + "/";
+
+        for (String folder : mFolderSet) {
+            String fold = folder.replace(BASIC_PATH, "");
+            String[] folders = fold.split("/");
+            String key;
+            if (folders.length == 2) {
+                key = folders[folders.length - 2] + "/" + folders[folders.length - 1] + "/";
+            } else {
+                key = folders[folders.length - 1] + "/";
+            }
+            String value = folders[folders.length - 1];
+            mFolderMap.put(key, value);
+        }
+
+        List<Map.Entry<String, String>> list = new LinkedList<>(mFolderMap.entrySet());
+
+        Collections.sort(list, (o1, o2) -> {
+            int comparision = (o1.getValue().compareTo(o2.getValue()));
+            return comparision == 0 ? o1.getKey().compareTo(o2.getKey()) : comparision;
+        });
+        for (Map.Entry<String, String> key : list) {
+            mFolderList.add(mFolderMap.get(key.getKey()));
+            mFolderPathList.add(key.getKey());
+        }
+
+        mFolderList.add(0, "갤러리");
+        mFolderPathList.add(0, "");
+        binding.gallerySpinner.setAdapter(new ArrayAdapter<>(this, R.layout.item_folder, mFolderList));
+    }
+
+    private TreeSet<String> initFolderLists() {
+        TreeSet<String> folderSet = new TreeSet<>();
+        String[] mProjection = new String[]{
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_TAKEN,
+        };
+
+        ContentResolver contentResolver = getContentResolver();
+        String orderBy = MediaStore.Video.Media.BUCKET_DISPLAY_NAME;
+        Uri mImages = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = contentResolver.query(mImages,
+                mProjection,
+                null,
+                null,
+                orderBy + " DESC");
+
+        //photo data
+        assert cursor != null;
+        try {
+            int nCol = cursor.getColumnIndex(mProjection[1]);
+            int displayName = cursor.getColumnIndex(mProjection[2]);
+            while (cursor.moveToNext()) {
+                String strImage = cursor.getString(nCol);
+                String displayImage = cursor.getString(displayName);
+                String absolutePath = strImage.replace("/" + displayImage, "");
+                folderSet.add(absolutePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        cursor.close();
+        return folderSet;
     }
 
     @Override

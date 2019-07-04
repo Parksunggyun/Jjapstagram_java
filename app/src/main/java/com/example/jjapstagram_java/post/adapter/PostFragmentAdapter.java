@@ -1,10 +1,14 @@
-package com.example.jjapstagram_java.post.fragment;
+package com.example.jjapstagram_java.post.adapter;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.example.jjapstagram_java.post.fragment.PostGalleryFragment;
+import com.example.jjapstagram_java.post.fragment.PostPhotoFragment;
+import com.example.jjapstagram_java.post.fragment.PostVideoFragment;
 
 public class PostFragmentAdapter extends FragmentStatePagerAdapter {
 

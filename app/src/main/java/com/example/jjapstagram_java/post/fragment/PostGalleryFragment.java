@@ -3,7 +3,6 @@ package com.example.jjapstagram_java.post.fragment;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,12 +18,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jjapstagram_java.BaseFragment;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.FragmentPostGalleryBinding;
 import com.example.jjapstagram_java.post.ThumbDecoration;
 import com.example.jjapstagram_java.post.Thumbnails;
+import com.example.jjapstagram_java.post.adapter.GalleryImageAdapter;
+
+import java.io.File;
 
 public class PostGalleryFragment extends BaseFragment {
 
@@ -37,24 +42,46 @@ public class PostGalleryFragment extends BaseFragment {
 
     private GalleryImageAdapter mGalleryImageAdapter;
     private static int height = 0;
+
+    private boolean singleImage = true;
+    private int currPos, prevPos = -1, cnt = 1;
+
     @Override
     public void setArguments(@Nullable Bundle args) {
         assert args != null;
         height = args.getInt("height");
     }
 
+    private void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.selectImagesImgView:
+                if(singleImage) {
+                    binding.selectImagesImgView.setBackgroundResource(R.drawable.border_more_image_sel);
+                    mGalleryImageAdapter.setMultiSelectMode(true, currPos, cnt);
+                    singleImage = false;
+                } else {
+                    binding.selectImagesImgView.setBackgroundResource(R.drawable.border_more_image);
+                    singleImage = true;
+                    mGalleryImageAdapter.setSingSelectMode(false);
+                    prevPos = 0;
+                    currPos = 0;
+                    cnt = 1;
+                }
+                break;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post_gallery, container, false);
-        Log.e("onCreateView", "onCreateView");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4);
         binding.imgViews.setLayoutManager(gridLayoutManager);
         mGalleryImageAdapter = new GalleryImageAdapter(getContext());
         binding.imgViews.setAdapter(mGalleryImageAdapter);
-
+        binding.imgViews.addOnItemTouchListener(onItemTouchListener);
         binding.imgViews.addItemDecoration(new ThumbDecoration());
-        //updateFolderPath(getActivity(), "/storage/emulated/0/");
+        binding.selectImagesImgView.setOnClickListener(this::onClick);
         return binding.getRoot();
     }
 
@@ -63,15 +90,11 @@ public class PostGalleryFragment extends BaseFragment {
         getImageList(activity, path);
     }
 
-    static int count = 0;
+    Cursor cursor;
 
     private void getImageList(Activity activity, String path) {
+        Log.e("firstImagePath", path + "");
         mGalleryImageAdapter.init();
-        Log.e("getImageList", "getImageList");
-/*        if (mGalleryImageAdapter == null) {
-            mGalleryImageAdapter = new GalleryImageAdapter(getContext());
-            binding.imgViews.setAdapter(mGalleryImageAdapter);
-        }*/
         String[] mProjection = new String[]{
                 MediaStore.Images.Media._ID,
                 MediaStore.MediaColumns.DATA,
@@ -84,7 +107,7 @@ public class PostGalleryFragment extends BaseFragment {
         ContentResolver contentResolver = activity.getContentResolver();
         String orderBy = MediaStore.Video.Media.DATE_TAKEN;
         Uri mImages = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        Cursor cursor = contentResolver.query(mImages,
+        cursor = contentResolver.query(mImages,
                 mProjection,
                 null,
                 null,
@@ -92,30 +115,77 @@ public class PostGalleryFragment extends BaseFragment {
 
         //photo data
         try {
+            assert cursor != null;
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
-            Log.e("total Cnt", cursor.getCount() + "");
             int nCol = cursor.getColumnIndex(mProjection[2]);
             int iId = cursor.getColumnIndex(mProjection[0]);
-            int displayname = cursor.getColumnIndex(mProjection[4]);
+            int count = 0;
             while (cursor.moveToNext()) {
                 String strImage = cursor.getString(nCol);
-                String displayImage = cursor.getString(displayname);
-                Log.e("displayName", strImage);
                 if (strImage.startsWith(path)) {
-                    //long id = cursor.getLong(iId);
-                    //Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(contentResolver, id, MediaStore.Images.Thumbnails.MINI_KIND, options);
                     String title = cursor.getString(3);
                     String data = cursor.getString(2);
-
-                    new Handler().post(() -> mGalleryImageAdapter.update(height, new Thumbnails(title, Uri.parse(data))));
+                    Thumbnails thumbnail = new Thumbnails(title, Uri.parse(data));
+                    if(count == 0) {
+                        thumbnail.setSelect(true);
+                        String firstImagePath = thumbnail.getUri().getPath();
+                        Log.e("firstImagePath isFirst", firstImagePath + "");
+                        Glide.with(this).load(new File(firstImagePath)).into(binding.selectedImgView);
+                    }
+                    //long id = cursor.getLong(iId);
+                    //Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(contentResolver, id, MediaStore.Images.Thumbnails.MINI_KIND, options);
+                    count++;
+                    new Handler().post(() -> mGalleryImageAdapter.update(height, thumbnail));
                 }
-                count++;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         cursor.close();
     }
+
+
+    private RecyclerView.OnItemTouchListener onItemTouchListener = new RecyclerView.OnItemTouchListener() {
+        @Override
+        public boolean onInterceptTouchEvent(@NonNull RecyclerView parent, @NonNull MotionEvent evt) {
+            if(MotionEvent.ACTION_UP == evt.getAction()) {
+                assert getContext() != null;
+                View child = parent.findChildViewUnder(evt.getX(), evt.getY());
+                assert child != null;
+                currPos = parent.getChildAdapterPosition(child);
+                if (currPos != -1) {
+                    Thumbnails thumbInfo = mGalleryImageAdapter.getThumbInfo(currPos);
+                    mGalleryImageAdapter.setSelected(currPos, prevPos);
+                    Glide.with(getContext()).load(new File(thumbInfo.getUri().getPath())).thumbnail(0.5f).into(binding.selectedImgView);
+                    prevPos = currPos;
+
+                    if(!singleImage) {
+                        if(thumbInfo.getSelectPosition() == -1) {
+                            cnt++;
+                            thumbInfo.setSelectPosition(cnt);
+                        } else {
+                            mGalleryImageAdapter.getThumbInfo(prevPos).setSelect(true);
+                            mGalleryImageAdapter.modifySelectedPosition(currPos);
+                            cnt--;
+                            thumbInfo.setSelectPosition(-1);
+                        }
+
+                    }
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+
+    };
 }

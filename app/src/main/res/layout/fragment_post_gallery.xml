@@ -11,7 +11,7 @@
         tools:context=".post.fragment.PostGalleryFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@android:color/holo_blue_dark"
+            android:background="#F1EFEF"
             android:id="@+id/bigSizeLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,6 +20,24 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/selectedImgView"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/selectImagesImgView"
+                android:src="@drawable/ic_more_image"
+                android:background="@drawable/border_more_image"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="@dimen/padding_12"
+                android:layout_marginBottom="@dimen/padding_12"
+                android:layout_width="@dimen/height_36"
+                android:layout_height="@dimen/height_36" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imgViews"
