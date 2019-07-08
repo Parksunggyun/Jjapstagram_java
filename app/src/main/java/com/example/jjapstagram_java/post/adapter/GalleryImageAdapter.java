@@ -86,14 +86,17 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
 
     public void setSelected(int pos, int pos2) {
         thumbnails.get(pos).setSelect(true);
-        if(pos2 != -1) {
-            thumbnails.get(pos2).setSelect(false);
-            notifyItemChanged(pos2);
-        } else {
-            thumbnails.get(0).setSelect(false);
-            notifyItemChanged(0);
+        if (pos != pos2) {
+
+            if (pos2 != -1) {
+                thumbnails.get(pos2).setSelect(false);
+                notifyItemChanged(pos2);
+            } else {
+                thumbnails.get(0).setSelect(false);
+                notifyItemChanged(0);
+            }
+            notifyItemChanged(pos);
         }
-        notifyItemChanged(pos);
     }
 
     public void setMultiSelectMode(boolean multiSelectMode, int pos, int cnt) {
@@ -115,14 +118,15 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
         int currPos = thumbnails.get(cnt).getSelectPosition();
         for (int i = 0; i < thumbnails.size(); i++) {
             int selectedPosition = thumbnails.get(i).getSelectPosition();
-            if(selectedPosition != -1 && selectedPosition > currPos) {
+            if (selectedPosition != -1 && selectedPosition > currPos) {
                 thumbnails.get(i).setSelectPosition(selectedPosition - 1);
+                thumbnails.get(i).setSelect(false);
                 notifyItemChanged(i);
             }
         }
     }
 
-    class GalleryImageViewHolder extends RecyclerView.ViewHolder {
+    static class GalleryImageViewHolder extends RecyclerView.ViewHolder {
 
         ItemGalleryImageBinding binding;
 

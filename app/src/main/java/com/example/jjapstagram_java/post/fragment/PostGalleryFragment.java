@@ -2,6 +2,7 @@ package com.example.jjapstagram_java.post.fragment;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.jjapstagram_java.BaseFragment;
+import com.example.jjapstagram_java.MainActivity;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.FragmentPostGalleryBinding;
 import com.example.jjapstagram_java.post.ThumbDecoration;
@@ -55,7 +58,7 @@ public class PostGalleryFragment extends BaseFragment {
     private void onClick(View view) {
         switch (view.getId()) {
             case R.id.selectImagesImgView:
-                if(singleImage) {
+                if (singleImage) {
                     binding.selectImagesImgView.setBackgroundResource(R.drawable.border_more_image_sel);
                     mGalleryImageAdapter.setMultiSelectMode(true, currPos, cnt);
                     singleImage = false;
@@ -80,6 +83,7 @@ public class PostGalleryFragment extends BaseFragment {
         mGalleryImageAdapter = new GalleryImageAdapter(getContext());
         binding.imgViews.setAdapter(mGalleryImageAdapter);
         binding.imgViews.addOnItemTouchListener(onItemTouchListener);
+        binding.imgViews.addOnScrollListener(onScrollChangeListener);
         binding.imgViews.addItemDecoration(new ThumbDecoration());
         binding.selectImagesImgView.setOnClickListener(this::onClick);
         return binding.getRoot();
@@ -127,7 +131,7 @@ public class PostGalleryFragment extends BaseFragment {
                     String title = cursor.getString(3);
                     String data = cursor.getString(2);
                     Thumbnails thumbnail = new Thumbnails(title, Uri.parse(data));
-                    if(count == 0) {
+                    if (count == 0) {
                         thumbnail.setSelect(true);
                         String firstImagePath = thumbnail.getUri().getPath();
                         Log.e("firstImagePath isFirst", firstImagePath + "");
@@ -145,11 +149,27 @@ public class PostGalleryFragment extends BaseFragment {
         cursor.close();
     }
 
+    private boolean imageTouch;
+
+    private RecyclerView.OnScrollListener onScrollChangeListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            // Scroll 시 ACTION_UP 이벤트 막기 위함
+            imageTouch = false;
+        }
+    };
 
     private RecyclerView.OnItemTouchListener onItemTouchListener = new RecyclerView.OnItemTouchListener() {
         @Override
         public boolean onInterceptTouchEvent(@NonNull RecyclerView parent, @NonNull MotionEvent evt) {
-            if(MotionEvent.ACTION_UP == evt.getAction()) {
+            if (MotionEvent.ACTION_UP == evt.getAction() && imageTouch) {
+
                 assert getContext() != null;
                 View child = parent.findChildViewUnder(evt.getX(), evt.getY());
                 assert child != null;
@@ -158,34 +178,41 @@ public class PostGalleryFragment extends BaseFragment {
                     Thumbnails thumbInfo = mGalleryImageAdapter.getThumbInfo(currPos);
                     mGalleryImageAdapter.setSelected(currPos, prevPos);
                     Glide.with(getContext()).load(new File(thumbInfo.getUri().getPath())).thumbnail(0.5f).into(binding.selectedImgView);
-                    prevPos = currPos;
 
-                    if(!singleImage) {
-                        if(thumbInfo.getSelectPosition() == -1) {
+                    if (!singleImage) {
+                        if (thumbInfo.getSelectPosition() == -1) {
                             cnt++;
                             thumbInfo.setSelectPosition(cnt);
+                            prevPos = currPos;
                         } else {
-                            mGalleryImageAdapter.getThumbInfo(prevPos).setSelect(true);
                             mGalleryImageAdapter.modifySelectedPosition(currPos);
+                            mGalleryImageAdapter.getThumbInfo(prevPos).setSelect(true);
                             cnt--;
                             thumbInfo.setSelectPosition(-1);
+                            thumbInfo.setSelect(false);
                         }
 
+                    } else {
+                        if (prevPos == currPos) {
+                            mGalleryImageAdapter.setSelected(currPos, prevPos);
+                        }
+                        prevPos = currPos;
                     }
                 }
+
+            } else if (MotionEvent.ACTION_DOWN == evt.getAction()) {
+                imageTouch = true;
             }
             return false;
         }
 
         @Override
         public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
         }
 
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
-
     };
 }

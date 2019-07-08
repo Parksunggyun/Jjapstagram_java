@@ -20,6 +20,7 @@ import com.example.jjapstagram_java.BaseFragment;
 import com.example.jjapstagram_java.Jjapplication;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.FragmentMainMyinfoBinding;
+import com.example.jjapstagram_java.service.GetUserInfoService;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Vector;
@@ -36,15 +37,14 @@ public class MyInfoMainFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_myinfo, container, false);
         Log.e(TAG, "onCreateView");
+        GetUserInfoService getUserInfoService = new GetUserInfoService(getActivity(), binding.myInfoProfileImgView, binding.userNameTxtView, binding.myStatusTxtView);
         mUser = Jjapplication.getUserInfo();
         assert mUser != null;
-        Uri profile = mUser.getPhotoUrl();
-        Glide.with(this).load(profile).apply(new RequestOptions().circleCrop()).into(binding.myInfoProfileImgView);
-        binding.userNameTxtView.setText(mUser.getDisplayName());
+        String email = mUser.getEmail();
+        getUserInfoService.getUserInfo(email);
         binding.myInfoPostCntTxtView.setText(("5\n" + getString(R.string.myInfo_post)));
         binding.myInfoFollowerCntTxtView.setText(("63\n" + getString(R.string.myInfo_follower)));
         binding.myInfoFollowingCntTxtView.setText(("68\n" + getString(R.string.myInfo_following)));
-        binding.myInfoTxtView.setText("박성균\ncawa");
         setLayoutHeight();
         setImgs(R.drawable.ic_post_thumb_sel, R.drawable.ic_post_list_desel, R.drawable.ic_story_tag_desel);
 

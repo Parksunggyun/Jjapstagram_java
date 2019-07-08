@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#DBDBDB"
+            android:elevation="4dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetEnd="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_42">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/closeUpdateProfileDialogImgView"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_close"
+                android:scaleType="centerInside"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/padding_12"
+                android:text="@string/myInfo_profile_update"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/updateProfileImgView"
+                android:layout_gravity="end"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_check"
+                android:scaleType="centerInside"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -86,7 +86,7 @@
                             android:layout_marginTop="@dimen/layout_margin_16"
                             android:layout_marginBottom="@dimen/layout_margin_16"
                             android:onClick="@{listener::onClick}"
-                            app:layout_constraintBottom_toTopOf="@+id/myInfoTxtView"
+                            app:layout_constraintBottom_toTopOf="@+id/myStatusTxtView"
                             app:layout_constraintEnd_toStartOf="@+id/myInfoPostCntTxtView"
                             app:layout_constraintHorizontal_weight="2.7"
                             app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
                             app:layout_constraintVertical_weight="7" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/myInfoTxtView"
+                            android:id="@+id/myStatusTxtView"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:gravity="center|start"

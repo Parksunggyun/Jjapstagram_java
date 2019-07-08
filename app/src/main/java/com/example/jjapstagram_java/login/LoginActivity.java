@@ -12,13 +12,14 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.jjapstagram_java.BaseActivity;
 import com.example.jjapstagram_java.Jjapplication;
-import com.example.jjapstagram_java.MainActivity;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.ActivityLoginBinding;
 import com.example.jjapstagram_java.request.FacebookLoginRequest;
 import com.example.jjapstagram_java.request.GoogleLoginRequest;
+import com.example.jjapstagram_java.service.PutUserInfoService;
 import com.example.jjapstagram_java.util.Logcat;
 import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -114,17 +115,30 @@ public class LoginActivity extends BaseActivity {
 
     public void checkUser(FirebaseUser user) {
         hideProgressDialog();
+        String userEmail, userName, userPhotoUri;
         if (user != null) {
             for (int i = 0; i < user.getProviderData().size(); i++) {
                 if(i != 0) {
                     UserInfo userInfo = user.getProviderData().get(i);
-                    Logcat.e(LoginActivity.class, userInfo.getProviderId(), userInfo.getDisplayName(), userInfo.getEmail(), String.valueOf(userInfo.getPhotoUrl()));
+                    userEmail = userInfo.getEmail();
+                    userName = userInfo.getDisplayName();
+                    userPhotoUri = userInfo.getPhotoUrl().toString();
+                    Logcat.e(LoginActivity.class, userInfo.getProviderId(), userEmail, userName, userPhotoUri);
+
+                    PutUserInfoService putUserInfoService = new PutUserInfoService(this);
+                    putUserInfoService.PutUserInfo(userEmail, userName, userPhotoUri);
                 }
             }
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
         }
     }
 
+    public void signOut() {
+        FirebaseUser user = Jjapplication.getUserInfo();
+        UserInfo userInfo = user.getProviderData().get(1);
+        if (userInfo.getProviderId().contains("facebook")) {
+            LoginManager.getInstance().logOut();
+        }
+        Jjapplication.mAuth.signOut();
+        Jjapplication.mAuth = null;
+    }
 }
