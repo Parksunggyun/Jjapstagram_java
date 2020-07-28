@@ -7,6 +7,7 @@ import com.example.jjapstagram_java.BaseActivity;
 import com.example.jjapstagram_java.MainActivity;
 import com.example.jjapstagram_java.login.LoginActivity;
 import com.example.jjapstagram_java.util.CommomMethod;
+import com.example.jjapstagram_java.util.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +29,29 @@ public class PutUserInfoService {
         progressDialog = new ProgressDialog(activity);
     }
 
+    public void UpdateUserInfo(UserInfo userInfo) {
+        showProgressDialog();
+        DocumentReference documentReference = mFirebaseFireStore.collection("users").document(userInfo.getUserEmail());
+        Map<String, String> mUserInfo = new HashMap<>();
+        mUserInfo.put("userEmail", userInfo.getUserEmail());
+        mUserInfo.put("userName", userInfo.getUserName());
+        mUserInfo.put("disPlayPhotoUri", userInfo.getDisPlayPhotoUri());
+        mUserInfo.put("userNickName", userInfo.getUserNickName());
+        mUserInfo.put("userStatusMsg", userInfo.getUserStatusMsg());
+        mUserInfo.put("userPhoneNumber", userInfo.getUserPhoneNumber());
+        mUserInfo.put("userGender", userInfo.getUserGender());
+        documentReference.set(mUserInfo).addOnCompleteListener(task2 -> {
+            if (task2.isSuccessful()) {
+                Toast.makeText(activity, "회원 정보가 정상적으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                CommomMethod.startActivity(activity, MainActivity.class, true);
+            } else {
+                Toast.makeText(activity, "일시적인 네트워크 에러가 발생했습니다. 잠시 후 다시시도해주세요.", Toast.LENGTH_SHORT).show();
+                ((LoginActivity) activity).signOut();
+            }
+            hideProgressDialog();
+        });
+
+    }
 
     public void PutUserInfo(String userEmail, String userName, String userPhotoUri) {
         showProgressDialog();
@@ -37,9 +61,10 @@ public class PutUserInfoService {
                 DocumentSnapshot userInfoSnapshot = task.getResult();
                 if (userInfoSnapshot.getData() == null) {
                     Map<String, String> mUserInfo = new HashMap<>();
-                    mUserInfo.put("disPlayName", userName);
+                    mUserInfo.put("userEmail", userEmail);
+                    mUserInfo.put("userName", userName);
                     mUserInfo.put("disPlayPhotoUri", userPhotoUri);
-                    mUserInfo.put("userName", "none");
+                    mUserInfo.put("userNickName", "none");
                     mUserInfo.put("userStatusMsg", "none");
                     mUserInfo.put("userPhoneNumber", "none");
                     mUserInfo.put("userGender", "none");

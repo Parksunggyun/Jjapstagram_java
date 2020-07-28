@@ -1,7 +1,6 @@
 package com.example.jjapstagram_java.myinfo;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,16 +10,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.jjapstagram_java.BaseFragment;
 import com.example.jjapstagram_java.Jjapplication;
 import com.example.jjapstagram_java.R;
 import com.example.jjapstagram_java.databinding.FragmentMainMyinfoBinding;
 import com.example.jjapstagram_java.service.GetUserInfoService;
+import com.example.jjapstagram_java.util.Logcat;
+import com.example.jjapstagram_java.util.UserInfo;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Vector;
@@ -30,17 +30,19 @@ public class MyInfoMainFragment extends BaseFragment {
     private static final String TAG = MyInfoMainFragment.class.getSimpleName();
 
     private FragmentMainMyinfoBinding binding;
-    private FirebaseUser mUser;
+    private UserInfo mUserInfo;
+    private GetUserInfoService getUserInfoService;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_myinfo, container, false);
         Log.e(TAG, "onCreateView");
-        GetUserInfoService getUserInfoService = new GetUserInfoService(getActivity(), binding.myInfoProfileImgView, binding.userNameTxtView, binding.myStatusTxtView);
-        mUser = Jjapplication.getUserInfo();
-        assert mUser != null;
-        String email = mUser.getEmail();
+        assert getActivity() != null;
+        getUserInfoService = new GetUserInfoService(getActivity(), binding.myInfoProfileImgView, binding.myInfoNickNameTxtView, binding.myStatusTxtView);
+        FirebaseUser user = Jjapplication.getUserInfo();
+        assert user != null;
+        String email = user.getEmail();
         getUserInfoService.getUserInfo(email);
         binding.myInfoPostCntTxtView.setText(("5\n" + getString(R.string.myInfo_post)));
         binding.myInfoFollowerCntTxtView.setText(("63\n" + getString(R.string.myInfo_follower)));
@@ -74,10 +76,21 @@ public class MyInfoMainFragment extends BaseFragment {
                 setImgs(R.drawable.ic_post_thumb_desel, R.drawable.ic_post_list_desel, R.drawable.ic_story_tag_sel);
                 break;
             case R.id.myInfoUpdateProfileBtn:
+                UpdateProfileDialog upd = new UpdateProfileDialog();
+                upd.setStyle( DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light );
+                Bundle arguments = new Bundle();
+                mUserInfo = getUserInfoService.getmUserInfo();
+                arguments.putSerializable("userInfo", mUserInfo);
+                upd.setArguments(arguments);
+                upd.show(getChildFragmentManager(), "updateProfile");
                 break;
             case R.id.myInfoMenuImgView:
                 break;
         }
+
+        UserInfo userInfo = new UserInfo();
+
+        UserInfo userInfo1 = userInfo;
     }
 
     private void setLayoutHeight() {

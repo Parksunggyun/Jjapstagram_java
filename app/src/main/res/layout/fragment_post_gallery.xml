@@ -5,14 +5,15 @@
 
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".post.fragment.PostGalleryFragment">
+        tools:context=".post.fragment.PostGalleryFragment"
+        app:layoutDescription="@xml/fragment_post_gallery_scene">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="#F1EFEF"
             android:id="@+id/bigSizeLayout"
+            android:background="#F1EFEF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,5 +48,5 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

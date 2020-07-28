@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@android:color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/profileToolbar"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="#DBDBDB"
+            android:background="@android:color/white"
             android:elevation="4dp"
             app:contentInsetStart="0dp"
             app:contentInsetEnd="0dp"
@@ -40,6 +44,172 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </androidx.appcompat.widget.Toolbar>
+
+        <ScrollView
+            android:id="@+id/profileScrollView"
+            app:layout_constraintTop_toBottomOf="@+id/profileToolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:padding="@dimen/padding_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/profileImgView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/padding_8"
+                android:layout_width="144dp"
+                android:layout_height="144dp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/profileImgTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileImgView"
+                    android:text="@string/myInfo_profile_img_update"
+                    android:textSize="16sp"
+                    android:textColor="@color/lgt_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/profileNameTxtView"
+                    android:layout_marginTop="@dimen/padding_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileImgTxtView"
+                    android:text="@string/myInfo_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.example.jjapstagram_java.util.ChangedColorEditText
+                    android:id="@+id/profileNameEdtText"
+                    app:layout_constraintTop_toBottomOf="@+id/profileNameTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@android:color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/profileNicknameTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileNameEdtText"
+                    android:text="@string/myInfo_profile_nickname"
+                    android:layout_marginTop="@dimen/padding_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.example.jjapstagram_java.util.ChangedColorEditText
+                    android:id="@+id/profileNicknameEdtText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileNicknameTxtView"
+                    android:textColor="@android:color/black"
+                    app:hint="@string/myInfo_set_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/profileStatusMsgTxtView"
+                    android:layout_marginTop="@dimen/padding_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileNicknameEdtText"
+                    android:text="@string/myInfo_profile_status_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.example.jjapstagram_java.util.ChangedColorEditText
+                    android:id="@+id/profileStatusMsgEdtText"
+                    app:layout_constraintTop_toBottomOf="@+id/profileStatusMsgTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@android:color/black"
+                    app:hint="@string/myInfo_set_status_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/dividerView"
+                    app:layout_constraintTop_toBottomOf="@+id/profileStatusMsgEdtText"
+                    android:layout_marginTop="@dimen/height_48"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#AAAAAA"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/privateInfoTxtView"
+                    android:layout_marginTop="@dimen/padding_16"
+                    android:text="@string/myInfo_profile_private_info"
+                    android:textSize="@dimen/text_16"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dividerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/emailAddressTxtView"
+                    android:layout_marginTop="@dimen/padding_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/privateInfoTxtView"
+                    android:text="@string/myInfo_profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/emailAddressEdtText"
+                    android:layout_marginTop="@dimen/padding_8"
+                    app:layout_constraintTop_toBottomOf="@+id/emailAddressTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/phoneTxtView"
+                    android:layout_marginTop="@dimen/padding_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailAddressEdtText"
+                    android:text="@string/myInfo_profile_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.example.jjapstagram_java.util.ChangedColorEditText
+                    android:id="@+id/phoneEdtText"
+                    android:layout_marginTop="@dimen/padding_8"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    app:hint="@string/myInfo_set_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/genderTxtView"
+                    android:layout_marginTop="@dimen/padding_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneEdtText"
+                    android:text="@string/myInfo_profile_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.example.jjapstagram_java.util.ChangedColorEditText
+                    android:id="@+id/genderEdtText"
+                    android:layout_marginTop="@dimen/padding_8"
+                    app:layout_constraintTop_toBottomOf="@+id/genderTxtView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    app:focusableInTouchMode="false"
+                    app:hint="@string/myInfo_set_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

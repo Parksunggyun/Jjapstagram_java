@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -29,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 
 public class LoginActivity extends BaseActivity {
@@ -45,13 +47,15 @@ public class LoginActivity extends BaseActivity {
 
     CallbackManager mCallbackManager;
 
+    String mCurrentToken;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
-
+        getCurrentToken();
         callGoogleLogin();
         mGoogleSignInClient = GoogleSignIn.getClient(this, mGoogleSignInOptions);
         Jjapplication.mAuth = FirebaseAuth.getInstance();
@@ -63,6 +67,23 @@ public class LoginActivity extends BaseActivity {
         binding.googleSignInBtn.setOnClickListener(this::signIn);
         binding.facebookSIgnInBtn.setOnClickListener(this::signIn);
 
+    }
+
+    private void getCurrentToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(
+                task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    assert task.getResult() != null;
+                    mCurrentToken = task.getResult().getToken();
+
+                    String msg = getString(R.string.msg_token_fmt, mCurrentToken);
+                    Log.d(TAG, msg);
+                }
+        );
     }
 
 
@@ -124,7 +145,6 @@ public class LoginActivity extends BaseActivity {
                     userName = userInfo.getDisplayName();
                     userPhotoUri = userInfo.getPhotoUrl().toString();
                     Logcat.e(LoginActivity.class, userInfo.getProviderId(), userEmail, userName, userPhotoUri);
-
                     PutUserInfoService putUserInfoService = new PutUserInfoService(this);
                     putUserInfoService.PutUserInfo(userEmail, userName, userPhotoUri);
                 }

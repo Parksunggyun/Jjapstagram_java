@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ChangedColorEditText">
+
+        <attr name="hint" format="reference|string" />
+        <attr name="focusableInTouchMode" format="reference|boolean"/>
+    </declare-styleable>
+
+</resources>

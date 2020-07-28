@@ -10,13 +10,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.jjapstagram_java.util.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class GetUserInfoService {
 
-    private AppCompatTextView displayNameTxtView, userNameTxtView;
+    private AppCompatTextView userNickNameTxtView, userStatusTxtView;
     private AppCompatImageView profileImgView;
 
     private FirebaseFirestore mFirebaseFireStore;
@@ -26,23 +25,30 @@ public class GetUserInfoService {
         this.baseActivity = baseActivity;
         this.mFirebaseFireStore = FirebaseFirestore.getInstance();
         this.profileImgView = profileImgView;
-        this.displayNameTxtView = textViews[0];
-        this.userNameTxtView = textViews[1];
+        this.userNickNameTxtView = textViews[0];
+        this.userStatusTxtView = textViews[1];
     }
 
+    private UserInfo mUserInfo;
+
+
+    public UserInfo getmUserInfo() {
+        return mUserInfo;
+    }
+
+    public void setmUserInfo(UserInfo userInfo) throws CloneNotSupportedException {
+        this.mUserInfo = (UserInfo) userInfo.clone();
+    }
 
     public void getUserInfo(String userEmail) {
         DocumentReference documentReference = mFirebaseFireStore.collection("users").document(userEmail);
-        documentReference.get().addOnCompleteListener(task -> {
-
-            if (task.isSuccessful()) {
-                DocumentSnapshot getUserInfo = task.getResult();
-                assert getUserInfo != null;
-                UserInfo userInfo = getUserInfo.toObject(UserInfo.class);
-                if (userInfo != null) {
-                    displayNameTxtView.setText(userInfo.getDisPlayName());
-                    if (userInfo.getUserName().equals("none")) {
-                        userNameTxtView.setText(userInfo.getDisPlayName());
+        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+            UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+            if (userInfo != null) {
+                try {
+                    setmUserInfo(userInfo);
+                    if (userInfo.getUserNickName().equals("none")) {
+                        userNickNameTxtView.setText(userInfo.getUserName());
                     }
                     if (userInfo.getDisPlayPhotoUri() != null) {
 
@@ -50,25 +56,25 @@ public class GetUserInfoService {
                     }
                     if (userInfo.getUserStatusMsg().equals("none")) {
                         if (userInfo.getUserName().equals("none")) {
-                            userNameTxtView.setText(userInfo.getDisPlayName());
+                            userStatusTxtView.setText(userInfo.getUserName());
                         } else {
-                            userNameTxtView.setText(userInfo.getUserName());
+                            userStatusTxtView.setText(userInfo.getUserName());
                         }
                     } else {
                         if (userInfo.getUserName().equals("none")) {
-                            userNameTxtView.setText(userInfo.getDisPlayName());
+                            userStatusTxtView.setText(userInfo.getUserName());
                         } else {
-                            userNameTxtView.setText(userInfo.getUserName());
+                            userStatusTxtView.setText(userInfo.getUserName());
                         }
-                        userNameTxtView.append("\n");
-                        userNameTxtView.append(userInfo.getUserStatusMsg());
+                        userStatusTxtView.append("\n");
+                        userStatusTxtView.append(userInfo.getUserStatusMsg());
 
                     }
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
                 }
             }
-
         });
-
     }
 
 }

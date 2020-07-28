@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <Transition
+        app:motionInterpolator="linear"
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start">
+        <OnSwipe app:dragDirection="dragUp"
+            app:touchAnchorId="@id/bigSizeLayout"
+            app:touchRegionId="@id/bigSizeLayout"
+            app:touchAnchorSide="bottom"/>
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@id/bigSizeLayout"
+            android:background="#F1EFEF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imgViews"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"/>
+
+
+        <Constraint android:id="@id/imgViews"
+            android:splitMotionEvents="false"
+            app:layout_constraintTop_toBottomOf="@+id/bigSizeLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <Constraint
+            android:id="@id/selectImagesImgView"
+            android:src="@drawable/ic_more_image"
+            android:background="@drawable/border_more_image"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/padding_12"
+            android:layout_marginBottom="@dimen/padding_12"
+            android:layout_width="@dimen/height_36"
+            android:layout_height="@dimen/height_36" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@id/bigSizeLayout"
+            android:background="#F1EFEF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imgViews"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="2:1"/>
+
+        <Constraint android:id="@id/imgViews"
+            android:splitMotionEvents="false"
+            app:layout_constraintTop_toBottomOf="@+id/bigSizeLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <Constraint
+            android:id="@id/selectImagesImgView"
+            android:src="@drawable/ic_more_image"
+            android:background="@drawable/border_more_image"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/padding_12"
+            android:layout_marginBottom="@dimen/padding_12"
+            android:layout_width="@dimen/height_36"
+            android:layout_height="@dimen/height_36" />
+    </ConstraintSet>
+</MotionScene>

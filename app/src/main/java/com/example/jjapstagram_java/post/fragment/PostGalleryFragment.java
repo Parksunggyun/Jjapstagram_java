@@ -35,11 +35,12 @@ import java.io.File;
 
 public class PostGalleryFragment extends BaseFragment {
 
-/*    private static PostGalleryFragment instance;
+    /*    private static PostGalleryFragment instance;
 
-    public static PostGalleryFragment getInstance() {
-        return instance;
-    }*/
+        public static PostGalleryFragment getInstance() {
+            return instance;
+        }*/
+    private static final String TAG = PostGalleryFragment.class.getSimpleName();
 
     private FragmentPostGalleryBinding binding;
 
@@ -55,7 +56,31 @@ public class PostGalleryFragment extends BaseFragment {
         height = args.getInt("height");
     }
 
+    private View.OnTouchListener touchListener = (v, event) -> {
+        switch (v.getId()) {
+            case R.id.selectImagesImgView: {
+                if(MotionEvent.ACTION_UP == event.getAction()) {
+                    if (singleImage) {
+                        binding.selectImagesImgView.setBackgroundResource(R.drawable.border_more_image_sel);
+                        mGalleryImageAdapter.setMultiSelectMode(true, currPos, cnt);
+                        singleImage = false;
+                    } else {
+                        binding.selectImagesImgView.setBackgroundResource(R.drawable.border_more_image);
+                        singleImage = true;
+                        mGalleryImageAdapter.setSingSelectMode(false);
+                        prevPos = 0;
+                        currPos = 0;
+                        cnt = 1;
+                    }
+                    return true;
+                }
+            }
+        }
+        return true;
+    };
+
     private void onClick(View view) {
+        Log.e(TAG, "ㅐㅜ치ㅑ차");
         switch (view.getId()) {
             case R.id.selectImagesImgView:
                 if (singleImage) {
@@ -86,6 +111,7 @@ public class PostGalleryFragment extends BaseFragment {
         binding.imgViews.addOnScrollListener(onScrollChangeListener);
         binding.imgViews.addItemDecoration(new ThumbDecoration());
         binding.selectImagesImgView.setOnClickListener(this::onClick);
+        binding.selectImagesImgView.setOnTouchListener(touchListener);
         return binding.getRoot();
     }
 

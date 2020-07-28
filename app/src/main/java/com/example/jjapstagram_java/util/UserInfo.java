@@ -1,62 +1,89 @@
 package com.example.jjapstagram_java.util;
 
-import androidx.annotation.NonNull;
+import java.io.Serializable;
 
-public class UserInfo {
+public class UserInfo implements Serializable, Cloneable {
 
-    private String disPlayName;
-    private String disPlayPhotoUri;
+    private String userEmail;
     private String userName;
+    private String disPlayPhotoUri;
+    private String userNickName;
     private String userPhoneNumber;
     private String userStatusMsg;
+    private String userGender;
+
 
     public UserInfo(){}
 
-    public UserInfo(@NonNull String disPlayName, @NonNull String disPlayPhotoUri, @NonNull String userName, @NonNull String userPhoneNumber, @NonNull String userStatusMsg) {
-        this.disPlayName = disPlayName;
-        this.disPlayPhotoUri = disPlayPhotoUri;
+    public UserInfo(String userEmail, String userName, String disPlayPhotoUri, String userNickName,
+                    String userPhoneNumber, String userStatusMsg, String userGender) {
+        this.userEmail = userEmail;
         this.userName = userName;
+        this.disPlayPhotoUri = disPlayPhotoUri;
+        this.userNickName = userNickName;
         this.userPhoneNumber = userPhoneNumber;
         this.userStatusMsg = userStatusMsg;
+        this.userGender = userGender;
     }
 
-    public String getDisPlayName() {
-        return disPlayName;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public String getDisPlayPhotoUri() {
-        return disPlayPhotoUri;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public String getUserStatusMsg() {
-        return userStatusMsg;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getUserPhoneNumber() {
-        return userPhoneNumber;
-    }
-
-    public void setDisPlayName(String disPlayName) {
-        this.disPlayName = disPlayName;
+    public String getDisPlayPhotoUri() {
+        return disPlayPhotoUri;
     }
 
     public void setDisPlayPhotoUri(String disPlayPhotoUri) {
         this.disPlayPhotoUri = disPlayPhotoUri;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUserNickName() {
+        return userNickName;
+    }
+
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public String getUserStatusMsg() {
+        return userStatusMsg;
     }
 
     public void setUserStatusMsg(String userStatusMsg) {
         this.userStatusMsg = userStatusMsg;
     }
 
-    public void setUserPhoneNumber(String userPhoneNumber) {
-        this.userPhoneNumber = userPhoneNumber;
+    public String getUserGender() {
+        return userGender;
+    }
+
+    public void setUserGender(String userGender) {
+        this.userGender = userGender;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

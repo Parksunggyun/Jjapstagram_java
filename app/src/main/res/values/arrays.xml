@@ -9,4 +9,11 @@
         <item>Nokia</item>
     </string-array>
 
+
+    <string-array name="gender">
+        <item>남성</item>
+        <item>여성</item>
+        <item>비공개</item>
+    </string-array>
+
 </resources>

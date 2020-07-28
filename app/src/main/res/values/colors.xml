@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="lgt_blue">#24C5FF</color>
+
     <color name="lgtGray">#CACACA</color>
 </resources>
